@@ -1,26 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:weatherly/core/theme/colors.dart';
 import '../../data/models/weather_model.dart';
 
 class WeatherDisplayCard extends StatelessWidget {
   final WeatherModel weather;
 
   const WeatherDisplayCard({super.key, required this.weather});
-
-  List<Color> _gradientFor(String condition) {
-    final c = condition.toLowerCase();
-    if (c.contains('rain') || c.contains('drizzle')) {
-      return [const Color(0xFF3A6073), const Color(0xFF16222A)];
-    } else if (c.contains('cloud') || c.contains('overcast')) {
-      return [const Color(0xFF757F9A), const Color(0xFFD7DDE8)];
-    } else if (c.contains('storm') || c.contains('thunder')) {
-      return [const Color(0xFF232526), const Color(0xFF414345)];
-    } else if (c.contains('snow')) {
-      return [const Color(0xFF83A4D4), const Color(0xFFB6FBFF)];
-    } else if (c.contains('clear') || c.contains('sun')) {
-      return [const Color(0xFFFF9A56), const Color(0xFFFF6B95)];
-    }
-    return [Colors.deepPurple.shade400, Colors.deepPurple.shade700];
-  }
 
   IconData _fallbackIconFor(String condition) {
     final c = condition.toLowerCase();
@@ -33,7 +18,7 @@ class WeatherDisplayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = _gradientFor(weather.conditionText);
+    final colors = AppColors.getWeatherGradient(weather.conditionText);
 
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
@@ -50,17 +35,17 @@ class WeatherDisplayCard extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 24),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: colors,
+            colors: colors.colors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: colors.last.withOpacity(0.4),
+              color: colors.colors.last.withValues(alpha: 0.4),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -76,10 +61,10 @@ class WeatherDisplayCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Flexible(
                   child: Text(
-                    weather.cityName,
+                    "${weather.cityName}, ${weather.region}, ${weather.country}",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.3,
@@ -104,7 +89,7 @@ class WeatherDisplayCard extends StatelessWidget {
                             height: 32,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Colors.white70,
+                              color: AppColors.textSecondary,
                             ),
                           ),
                         );
@@ -112,20 +97,20 @@ class WeatherDisplayCard extends StatelessWidget {
                       errorBuilder: (_, __, ___) => Icon(
                         _fallbackIconFor(weather.conditionText),
                         size: 80,
-                        color: Colors.white,
+                        color: AppColors.textPrimary,
                       ),
                     )
                   : Icon(
                       _fallbackIconFor(weather.conditionText),
                       size: 80,
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
             ),
             const SizedBox(height: 8),
             Text(
               '${weather.tempC.round()}°',
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontSize: 64,
                 fontWeight: FontWeight.w200,
                 height: 1,
@@ -135,13 +120,13 @@ class WeatherDisplayCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
+                color: AppColors.textPrimary.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 weather.conditionText,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),

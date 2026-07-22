@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:weatherly/core/theme/colors.dart';
 import 'core/di/service_locator.dart';
 import 'features/weather/presentation/screens/weather_screen.dart';
 
@@ -23,7 +24,7 @@ class WeatherApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.accentPurple),
       ),
       home: const WeatherScreen(),
     );

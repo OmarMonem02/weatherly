@@ -15,3 +15,5 @@ class FetchWeatherEvent extends WeatherEvent {
   @override
   List<Object?> get props => [cityName];
 }
+
+class LoadLastSearchedCityEvent extends WeatherEvent {}

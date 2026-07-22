@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherly/core/theme/colors.dart';
 import 'package:weatherly/features/weather/presentation/bloc/weather_state.dart';
 import 'package:weatherly/features/weather/presentation/widgets/weather_display_card.dart';
 
@@ -31,18 +32,18 @@ class StateBody extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.red.shade50,
+          color: AppColors.error.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.red.shade100),
+          border: Border.all(color: AppColors.error.withValues(alpha: 0.1)),
         ),
         child: Row(
           children: [
-            Icon(Icons.error_outline, color: Colors.red.shade400),
+            Icon(Icons.error_outline, color: AppColors.error),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 state.message,
-                style: TextStyle(color: Colors.red.shade700),
+                style: TextStyle(color: AppColors.error),
               ),
             ),
           ],
@@ -55,11 +56,11 @@ class StateBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 60),
       child: Column(
         children: [
-          Icon(Icons.wb_cloudy_outlined, size: 72, color: Colors.grey.shade300),
+          Icon(Icons.wb_cloudy_outlined, size: 72, color: AppColors.textHint),
           const SizedBox(height: 16),
           Text(
             'Search for a city to view the weather.',
-            style: TextStyle(color: Colors.grey.shade500, fontSize: 15),
+            style: TextStyle(color: AppColors.textHint, fontSize: 15),
           ),
         ],
       ),

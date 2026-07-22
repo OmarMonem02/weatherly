@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failures.dart';
 import '../../domain/repositories/weather_repository.dart';
 import '../datasources/weather_local_data_source.dart';
 import '../datasources/weather_remote_data_source.dart';
@@ -13,21 +15,29 @@ class WeatherRepositoryImpl implements WeatherRepository {
   });
 
   @override
-  Future<WeatherModel> getWeather(String cityName) async {
+  Future<Either<Failure, WeatherModel>> getWeatherByCity(String cityName) async {
     try {
       final remoteWeather = await remoteDataSource.getWeatherByCity(cityName);
       
       await localDataSource.cacheWeather(remoteWeather);
       
-      return remoteWeather;
+      return Right(remoteWeather);
     } catch (e) {
-      final cachedWeather = await localDataSource.getLastWeather();
-      
-      if (cachedWeather != null) {
-        return cachedWeather;
+      try {
+        final cachedWeather = await localDataSource.getLastWeather();
+        if (cachedWeather != null) {
+          return Right(cachedWeather);
+        }
+      } catch (_) {
       }
-      
-      rethrow;
+      return const Left(ServerFailure(
+        message: 'No internet connection and no cached data',
+      ));
     }
+  }
+
+  @override
+  String? getLastCity() {
+    return localDataSource.getLastCity();
   }
 }

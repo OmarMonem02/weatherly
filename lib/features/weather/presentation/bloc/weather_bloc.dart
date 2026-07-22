@@ -7,26 +7,21 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository repository;
 
   WeatherBloc({required this.repository}) : super(WeatherInitial()) {
-    on<FetchWeatherEvent>(_onFetchWeather);
-  }
+    
+    on<FetchWeatherEvent>((event, emit) async {
+      emit(WeatherLoading());
+      final result = await repository.getWeatherByCity(event.cityName);
+      result.fold(
+        (failure) => emit(WeatherError(message: failure.message)),
+        (weather) => emit(WeatherSuccess(weather: weather)),
+      );
+    });
 
-  Future<void> _onFetchWeather(
-    FetchWeatherEvent event,
-    Emitter<WeatherState> emit,
-  ) async {
-    if (event.cityName.trim().isEmpty) {
-      emit(const WeatherError(message: 'Please enter the city name first.'));
-      return;
-    }
-
-    emit(WeatherLoading());
-
-    try {
-      final weather = await repository.getWeather(event.cityName);
-      emit(WeatherSuccess(weather: weather));
-    } catch (e) {
-      final cleanMessage = e.toString().replaceAll('Exception: ', '');
-      emit(WeatherError(message: cleanMessage));
-    }
+    on<LoadLastSearchedCityEvent>((event, emit) async {
+      final lastCity = repository.getLastCity();
+      if (lastCity != null && lastCity.isNotEmpty) {
+        add(FetchWeatherEvent(cityName: lastCity));
+      }
+    });
   }
 }
