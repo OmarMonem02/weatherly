@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:weatherly/core/network/constants.dart';
 import '../models/weather_model.dart';
@@ -15,7 +16,7 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
   Future<WeatherModel> getWeatherByCity(String cityName) async {
     try {
       final response = await dio.get(
-        ApiConstants.currentWeatherEndpoint,
+        ApiConstants.baseUrl,
         queryParameters: {
           'key': ApiConstants.apiKey,
           'q': cityName,
@@ -23,7 +24,11 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return WeatherModel.fromJson(response.data);
+        final dynamic data = response.data is String
+            ? jsonDecode(response.data)
+            : response.data;
+
+        return WeatherModel.fromJson(data);
       } else {
         throw Exception('An error occurred while retrieving data.');
       }

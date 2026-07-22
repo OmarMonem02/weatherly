@@ -13,9 +13,7 @@ class WeatherModel extends Equatable {
     required this.iconUrl,
   });
 
-  // تحويل الـ JSON الجاي من WeatherAPI إلى WeatherModel Object
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
-    // رابط الأيقونة بييجي من الـ API ببدء // فلابُد من إضافة https:
     String rawIconUrl = json['current']['condition']['icon'] ?? '';
     if (rawIconUrl.startsWith('//')) {
       rawIconUrl = 'https:$rawIconUrl';
@@ -29,18 +27,12 @@ class WeatherModel extends Equatable {
     );
   }
 
-  // تحويل الـ Object لـ Map لسهولة تخزينه في الـ SharedPreferences (الكاش)
   Map<String, dynamic> toJson() {
     return {
-      'location': {
-        'name': cityName,
-      },
+      'location': {'name': cityName},
       'current': {
         'temp_c': tempC,
-        'condition': {
-          'text': conditionText,
-          'icon': iconUrl,
-        },
+        'condition': {'text': conditionText, 'icon': iconUrl},
       },
     };
   }
