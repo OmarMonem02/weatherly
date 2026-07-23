@@ -10,8 +10,8 @@ abstract class AppColors {
   static const List<Color> clearGradient = [Color(0xFFFF9A56), Color(0xFFFF6B95)];
   static const List<Color> defaultGradient = [Color(0xFF7E57C2), Color(0xFF512DA8)];
 
-  static const Color cardBg = Color(0xFF2E2D5D);
-  static const Color searchFieldBg = Color(0xFF1E1B3A);
+  static const Color cardBg = Color.fromARGB(255, 51, 83, 131);
+  static const Color searchFieldBg = Color.fromARGB(255, 38, 57, 85);
 
   static const Color accentPurple = Color.fromARGB(255, 255, 255, 255);
 

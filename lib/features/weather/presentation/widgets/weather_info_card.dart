@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weatherly/core/theme/colors.dart';
+import 'package:weatherly/core/theme/fonts.dart';
 
 class WeatherInfoCard extends StatelessWidget {
   final IconData icon;
@@ -37,9 +38,8 @@ class WeatherInfoCard extends StatelessWidget {
               const SizedBox(width: 6),
               Text(
                 title.toUpperCase(),
-                style: const TextStyle(
+                style: RobotoFonts.caption.copyWith(
                   color: AppColors.textSecondary,
-                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.8,
                 ),
@@ -49,7 +49,7 @@ class WeatherInfoCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             value,
-            style: const TextStyle(
+            style: RobotoFonts.headline5.copyWith(
               color: AppColors.textPrimary,
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class WeatherInfoCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               subValue!,
-              style: const TextStyle(
+              style: RobotoFonts.body2.copyWith(
                 color: AppColors.textSecondary,
                 fontSize: 13,
               ),

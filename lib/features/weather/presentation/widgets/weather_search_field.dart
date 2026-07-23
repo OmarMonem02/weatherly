@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weatherly/core/theme/colors.dart';
+import 'package:weatherly/core/theme/fonts.dart';
 
 class WeatherSearchField extends StatelessWidget {
   final TextEditingController controller;
@@ -21,10 +22,10 @@ class WeatherSearchField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        style: const TextStyle(color: AppColors.textPrimary),
+        style: RobotoFonts.body1.copyWith(color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: 'Search for a city...',
-          hintStyle: const TextStyle(color: AppColors.textHint),
+          hintStyle: RobotoFonts.body1.copyWith(color: AppColors.textHint),
           prefixIcon: const Icon(Icons.search, color: AppColors.textMuted),
           suffixIcon: IconButton(
             icon: const Icon(Icons.arrow_forward, color: AppColors.accentPurple),

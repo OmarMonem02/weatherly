@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weatherly/core/theme/colors.dart';
+import 'package:weatherly/core/theme/fonts.dart';
 import 'package:weatherly/features/weather/presentation/bloc/weather_bloc.dart';
 import 'package:weatherly/features/weather/presentation/bloc/weather_state.dart';
 import 'package:weatherly/features/weather/presentation/widgets/weather_header.dart';
@@ -15,7 +16,6 @@ class WeatherInfoCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: BlocConsumer<WeatherBloc, WeatherState>(
           listener: (context, state) {
             if (state is WeatherSuccess) {
@@ -33,11 +33,16 @@ class WeatherInfoCards extends StatelessWidget {
             } else if (state is WeatherSuccess) {
               final w = state.weather;
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 10),
                   WeatherHeader(weather: w),
-                  const SizedBox(height: 30),
-                  GridView.count(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
@@ -81,11 +86,14 @@ class WeatherInfoCards extends StatelessWidget {
                         title: 'Visibility',
                         value: '${w.visKm} km',
                       ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                ],
-              );
+                ),
+              ],
+            );
             } else if (state is WeatherError) {
               return Padding(
                 padding: const EdgeInsets.only(top: 60),
@@ -105,7 +113,9 @@ class WeatherInfoCards extends StatelessWidget {
                       Expanded(
                         child: Text(
                           state.message,
-                          style: TextStyle(color: AppColors.textPrimary),
+                          style: RobotoFonts.body1.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                       ),
                     ],
@@ -114,12 +124,14 @@ class WeatherInfoCards extends StatelessWidget {
               );
             }
 
-            return const Padding(
-              padding: EdgeInsets.only(top: 120),
+            return Padding(
+              padding: const EdgeInsets.only(top: 120),
               child: Center(
                 child: Text(
                   'Search for a city to view weather details',
-                  style: TextStyle(color: AppColors.textHint, fontSize: 16),
+                  style: RobotoFonts.body1.copyWith(
+                    color: AppColors.textHint,
+                  ),
                 ),
               ),
             );
